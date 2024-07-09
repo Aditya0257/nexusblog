@@ -1,0 +1,11 @@
+name = "backend"
+compatibility_date = "2023-12-01"
+
+# [vars]
+# MY_VAR = "my-variable"
+
+# conn pool url
+[vars]
+DATABASE_URL=""
+JWT_SECRET=""
+
