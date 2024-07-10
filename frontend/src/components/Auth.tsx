@@ -4,9 +4,13 @@ import { useState } from "react";
 import { SignupInput } from "@aditya0257/nexusblog-common";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
+import { useSetRecoilState } from "recoil";
+import { userAtom } from "../store/atoms/user";
 
 export const Auth = ({ type }: { type: "signup" | "signin" }) => {
   const navigate = useNavigate();
+
+  const setUserAtom = useSetRecoilState(userAtom);
   const [postInputs, setPostInputs] = useState<SignupInput>({
     name: "",
     email: "",
@@ -27,6 +31,8 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
       }
       const jwt = authHeader.split(" ")[1];
       localStorage.setItem("token", jwt);
+      const user_name = response.data.name;
+      setUserAtom({ username: user_name, isAuthenticated: true });
       navigate("/blogs");
     } catch (e) {
       // alert the user here that the request failed

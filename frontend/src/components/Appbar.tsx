@@ -1,11 +1,15 @@
 import { Link } from "react-router-dom";
 import { Avatar } from "./Avatar";
+import { useRecoilValue } from "recoil";
+import { userAtom } from "../store/atoms/user";
 
 export const Appbar = ({
   isOnPublishPage = false,
 }: {
   isOnPublishPage?: boolean;
 }) => {
+  const userState = useRecoilValue(userAtom);
+
   return (
     <div className="fixed bg-white w-full z-20 top-0 h-14 shadow-sm flex py-2 justify-between px-10 border-b">
       <div className="flex flex-col justify-center text-lg font-semibold cursor-pointer">
@@ -26,7 +30,10 @@ export const Appbar = ({
           </button>
         </Link>
 
-        <Avatar name="Aditya" size="big" />
+        <Avatar
+          name={userState.username !== "" ? userState.username : "Anonymous"}
+          size="big"
+        />
       </div>
     </div>
   );
