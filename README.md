@@ -33,7 +33,9 @@ Nexus is a blogging application that allows users to create and read blogs. The 
 
 1.  **Clone the repository:**
 
-    git clone <https://github.com/your-username/nexus.git> cd nexus
+    git clone <https://github.com/Aditya0257/nexusblog.git>
+
+    cd nexus
 
 2.  **Install dependencies for both frontend and backend:**
 
