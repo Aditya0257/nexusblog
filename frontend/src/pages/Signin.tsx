@@ -1,7 +1,7 @@
-import { useRecoilValue } from "recoil";
+// import { useRecoilValue } from "recoil";
 import { Auth } from "../components/Auth";
 import { Quote } from "../components/Quote";
-import { userSelector } from "../store/atoms/user";
+// import { userSelector } from "../store/atoms/user";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 

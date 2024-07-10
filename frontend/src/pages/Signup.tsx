@@ -1,10 +1,10 @@
-import { useRecoilValue } from "recoil";
+// import { useRecoilValue } from "recoil";
 import { Auth } from "../components/Auth";
 import { Quote } from "../components/Quote";
-import { userAtom } from "../store/atoms/user";
+// import { userAtom } from "../store/atoms/user";
 
 export const Signup = () => {
-  const { username, isAuthenticated } = useRecoilValue(userAtom);
+  // const { username, isAuthenticated } = useRecoilValue(userAtom);
 
   return (
     <div>
