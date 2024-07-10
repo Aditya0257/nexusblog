@@ -75,6 +75,7 @@ blogRoute.post("/", async (c) => {
     });
     return c.json({
       id: result.id,
+      no: result.no,
     });
   } catch (e) {
     c.status(403);
@@ -132,15 +133,24 @@ blogRoute.get("/no/:no", async (c) => {
       where: {
         no: number,
       },
+      select: {
+        no: true,
+        title: true,
+        content: true,
+        publishedDate: true,
+        author: {
+          select: {
+            name: true,
+          },
+        },
+      },
     });
 
     if (!blog) {
-      return c.text("blog with given id doesnt exist");
+      throw new Error("");
     }
 
-    return c.json({
-      blog,
-    });
+    return c.json({ blog });
   } catch (e) {
     c.status(403);
     return c.text("Cant find blog with given no.");
@@ -152,6 +162,14 @@ blogRoute.get("/bulk", async (c) => {
   const prisma = getPrisma(c.env.DATABASE_URL);
 
   const blogs = await prisma.post.findMany({
+    include: {
+      author: {
+        select: {
+          name: true,
+        },
+      },
+    },
+
     take: 10,
   });
 
