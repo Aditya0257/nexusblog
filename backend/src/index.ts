@@ -9,10 +9,7 @@ const app = new Hono();
 app.use(
   "/*",
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://nexusblog-b37gj34hc-adityas-projects-ca55bea2.vercel.app",
-    ],
+    origin: "*",
     exposeHeaders: ["Authorization"],
   }),
 );
