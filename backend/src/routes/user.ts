@@ -44,6 +44,7 @@ userRoute.post("/signin", async (c) => {
   return c.json(
     {
       message: "User logged in successfully",
+      name: user.name,
     },
     200,
   );
@@ -96,6 +97,7 @@ userRoute.post("/signup", async (c) => {
   return c.json(
     {
       message: "User created successfully!",
+      name: user.name,
     },
     201,
   );
