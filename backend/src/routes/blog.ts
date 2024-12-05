@@ -178,6 +178,100 @@ blogRoute.get("/bulk", async (c) => {
   });
 });
 
+enum Qtype {
+  All = "All",
+  Author = "Author",
+  Content = "Content"
+}
+
+// filtered blogs
+blogRoute.get("/search", async (c) => {
+  let { filter = "", limit, qtype }: any = c.req.query();
+  const prisma = getPrisma(c.env.DATABASE_URL);
+  let blogs;
+  limit = parseInt(limit);
+  if(!qtype) {
+    qtype = Qtype.All;
+  }
+  switch(qtype) {
+    case Qtype.All: 
+      blogs = await prisma.post.findMany({
+        where: {
+          OR: [
+            { title: { contains: filter } },
+            { content: { contains: filter } },
+            { author: {
+                OR: [
+                  { email: { contains: filter } },
+                  { name: { contains: filter } },
+                ]
+              } 
+            },
+          ]
+        },
+        include: {
+          author: {
+            select: {
+              name: true,
+            },
+          },
+        },
+        take: limit,
+      });
+      break;
+    case Qtype.Author:
+      blogs = await prisma.post.findMany({
+        where: {
+          OR: [
+            { author: {
+                OR: [
+                  { email: { contains: filter } },
+                  { name: { contains: filter } },
+                ]
+              } 
+            },
+          ]
+        },
+        include: {
+          author: {
+            select: {
+              name: true,
+            },
+          },
+        },
+        take: limit
+      });
+      break;
+    case Qtype.Content:
+      blogs = await prisma.post.findMany({
+        where: {
+          OR: [
+            { title: { contains: filter } },
+            { content: { contains: filter } },
+          ]
+        },
+        include: {
+          author: {
+            select: {
+              name: true,
+            },
+          },
+        },
+        take: limit,
+      });
+      break;
+    default: 
+      console.log("filter query type is not specified, and while taking it to be for all, faced some issue!");
+      return c.json({ error: "Invalid query type specified", success: false }, 400);
+  }
+
+  return c.json({
+    blogs,
+    success: true
+  });
+  
+});
+
 blogRoute.get("/:id", async (c) => {
   try {
     const id = c.req.param("id");
