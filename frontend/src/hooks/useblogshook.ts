@@ -16,7 +16,7 @@ export interface BlogType extends BaseBlog {
   authorName: string;
 }
 
-interface BlogResponseType extends BaseBlog {
+export interface BlogResponseType extends BaseBlog {
   author: {
     name: string;
   };
@@ -31,7 +31,7 @@ export function formatDate(dateString: string): string {
   return `${month} ${day}, ${year}`;
 }
 
-export const useBlogs = (): { loading: boolean; blogs: BlogType[] } => {
+export const useBlogs = (): { loading: boolean; blogs: BlogType[]; setBlogs: React.Dispatch<React.SetStateAction<BlogType[]>>; setLoading: React.Dispatch<React.SetStateAction<boolean>>} => {
   const [loading, setLoading] = useState<boolean>(true);
   const [blogs, setBlogs] = useState<BlogType[]>([]);
 
@@ -59,5 +59,7 @@ export const useBlogs = (): { loading: boolean; blogs: BlogType[] } => {
   return {
     loading,
     blogs,
+    setBlogs,
+    setLoading
   };
 };
